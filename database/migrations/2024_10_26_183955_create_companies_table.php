@@ -1,0 +1,27 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up()
+    {
+        Schema::create('companies', function (Blueprint $table) {
+            $table->id(); // ID
+            $table->string('name'); // Name
+            $table->string('industry'); // Industry
+            $table->string('location'); // Location
+            $table->text('description')->nullable(); // Description
+            $table->string('logo')->nullable(); // Logo (URL or path)
+            $table->string('website')->nullable(); // Website
+            $table->timestamps(); // Created at & Updated at
+        });
+    }
+
+    public function down()
+    {
+        Schema::dropIfExists('companies');
+    }
+};
