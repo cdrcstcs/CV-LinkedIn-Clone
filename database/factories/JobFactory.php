@@ -4,6 +4,7 @@ namespace Database\Factories;
 use App\Models\Job;
 use App\Models\Company;
 use App\Models\User;
+use App\Models\Skill; // Import Skill model
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class JobFactory extends Factory
@@ -17,8 +18,16 @@ class JobFactory extends Factory
             'job_title' => $this->faker->jobTitle, // Job Title
             'description' => $this->faker->paragraph, // Description
             'location' => $this->faker->city, // Location
-            'skills_required' => json_encode([$this->faker->word, $this->faker->word]), // Skills Required (JSON)
             'posted_by' => User::factory(), // Create a user for the poster
         ];
+    }
+
+    public function withSkills($count = 2)
+    {
+        return $this->afterCreating(function (Job $job) use ($count) {
+            // Attach random skills to the job
+            $skills = Skill::inRandomOrder()->take($count)->pluck('id'); // Get random skill IDs
+            $job->skills()->attach($skills); // Attach the skills to the job
+        });
     }
 }

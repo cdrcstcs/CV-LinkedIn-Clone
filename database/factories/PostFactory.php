@@ -14,7 +14,7 @@ class PostFactory extends Factory
         return [
             'user_id' => User::factory(), // Create a user for the post
             'content' => $this->faker->paragraphs(2, true), // Content (text, images, videos)
-            'likes' => json_encode([]), // Initialize likes as an empty array
+            'likes' => $this->faker->numberBetween(0, 100), // Random integer for likes
             'comments' => json_encode([]), // Initialize comments as an empty array
         ];
     }

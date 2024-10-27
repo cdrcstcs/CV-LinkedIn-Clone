@@ -15,7 +15,16 @@ class GroupFactory extends Factory
             'name' => $this->faker->company, // Name
             'description' => $this->faker->paragraph, // Description
             'admin_user_id' => User::factory(), // Admin User ID
-            'members' => json_encode([]), // Members (initially empty)
+            // Removed members from here, will be handled in afterCreating
         ];
+    }
+
+    public function withMembers($count = 3)
+    {
+        return $this->afterCreating(function (Group $group) use ($count) {
+            // Create and attach random users as members
+            $members = User::factory()->count($count)->create();
+            $group->members()->attach($members); // Attach members to the group
+        });
     }
 }

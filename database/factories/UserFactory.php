@@ -1,10 +1,12 @@
 <?php
-
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use App\Models\User;
+use App\Models\Education; // Import the Education model
+use App\Models\Skill;     // Import the Skill model
+use App\Models\Job;       // Import the Job model
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
@@ -24,13 +26,10 @@ class UserFactory extends Factory
             'summary' => $this->faker->paragraph,
             'location' => $this->faker->city,
             'industry' => $this->faker->word,
-            'skills' => json_encode([$this->faker->word, $this->faker->word]), // Example array
-            'education_history' => json_encode([]), // Example empty array
-            'work_experience' => json_encode([]), // Example empty array
-            'connections' => json_encode([]), // Example empty array
-            'notifications' => json_encode([]), // Example empty array
+            // We will generate related records separately
         ];
     }
+
     /**
      * Indicate that the model's email address should be unverified.
      *
@@ -41,5 +40,20 @@ class UserFactory extends Factory
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
         ]);
+    }
+
+    // Create users with relationships
+    public function withRelationships()
+    {
+        return $this->afterCreating(function (User $user) {
+            // Create random educations
+            Education::factory()->count(rand(1, 3))->create(['user_id' => $user->id]);
+
+            // Create random skills
+            Skill::factory()->count(rand(1, 5))->create(['user_id' => $user->id]);
+
+            // Create random jobs
+            Job::factory()->count(rand(1, 3))->create(['user_id' => $user->id]);
+        });
     }
 }

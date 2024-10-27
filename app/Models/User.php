@@ -62,4 +62,12 @@ class User extends Authenticatable
             $this->belongsToMany(User::class, 'connections', 'user_id_2', 'user_id_1')
         );
     }
+    public function groups()
+    {
+        return $this->belongsToMany(Group::class, 'group_user');
+    }
+    public function events()
+    {
+        return $this->belongsToMany(Event::class, 'event_user');
+    }
 }
