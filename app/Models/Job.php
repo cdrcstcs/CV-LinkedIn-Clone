@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -26,7 +27,7 @@ class Job extends Model
      */
     public function company()
     {
-        return $this->belongsTo(Company::class);
+        return $this->belongsTo(Company::class, 'company_id');
     }
 
     /**
@@ -35,5 +36,21 @@ class Job extends Model
     public function poster()
     {
         return $this->belongsTo(User::class, 'posted_by');
+    }
+
+    /**
+     * Scope a query to filter jobs by location.
+     */
+    public function scopeByLocation($query, $location)
+    {
+        return $query->where('location', 'like', '%' . $location . '%');
+    }
+
+    /**
+     * Scope a query to filter jobs by a specific skill.
+     */
+    public function scopeWithSkill($query, $skill)
+    {
+        return $query->whereJsonContains('skills_required', $skill);
     }
 }

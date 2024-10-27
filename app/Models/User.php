@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -42,10 +41,25 @@ class User extends Authenticatable
     ];
 
     /**
-     * Define the connection relationship (many-to-many).
+     * Define the connections relationship (many-to-many).
      */
     public function connections()
     {
-        return $this->belongsToMany(User::class, 'connections', 'user_id', 'connection_id');
+        return $this->belongsToMany(
+            User::class,
+            'connections',
+            'user_id_1', // Foreign key on the connections table for this user
+            'user_id_2'  // Foreign key on the connections table for the related user
+        )->withPivot('status'); // Include pivot data if needed
+    }
+
+    /**
+     * Get all connections for the user (both directions).
+     */
+    public function allConnections()
+    {
+        return $this->connections()->union(
+            $this->belongsToMany(User::class, 'connections', 'user_id_2', 'user_id_1')
+        );
     }
 }

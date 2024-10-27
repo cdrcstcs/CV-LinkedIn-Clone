@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -21,6 +22,14 @@ class Profile extends Model
      */
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    /**
+     * Optionally, you can define a scope to filter profiles by visibility.
+     */
+    public function scopeVisible($query)
+    {
+        return $query->where('visibility', 'public'); // Adjust as needed
     }
 }

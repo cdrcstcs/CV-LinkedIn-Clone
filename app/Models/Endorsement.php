@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,11 +16,11 @@ class Endorsement extends Model
     ];
 
     /**
-     * Define the relationship to the User model (who is endorsed).
+     * Define the relationship to the User model (the user who is endorsed).
      */
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     /**
@@ -27,7 +28,7 @@ class Endorsement extends Model
      */
     public function skill()
     {
-        return $this->belongsTo(Skill::class);
+        return $this->belongsTo(Skill::class, 'skill_id');
     }
 
     /**
