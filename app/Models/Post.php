@@ -12,13 +12,11 @@ class Post extends Model
     protected $fillable = [
         'user_id',
         'content',
-        'likes',
-        'comments',
+        'likes', // Now an integer
     ];
 
     protected $casts = [
-        'likes' => 'array',
-        'comments' => 'array',
+        'likes' => 'integer', // Cast likes as an integer
     ];
 
     /**
@@ -30,11 +28,19 @@ class Post extends Model
     }
 
     /**
+     * Define the relationship to the Comment model.
+     */
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    /**
      * Scope a query to only include posts with a certain number of likes.
      */
     public function scopeWithMinLikes($query, $minLikes)
     {
-        return $query->whereRaw('json_length(likes) >= ?', [$minLikes]);
+        return $query->where('likes', '>=', $minLikes); // Updated for integer likes
     }
 
     /**

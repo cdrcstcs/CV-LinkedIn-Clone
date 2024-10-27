@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -14,12 +13,7 @@ class Job extends Model
         'job_title',
         'description',
         'location',
-        'skills_required',
         'posted_by',
-    ];
-
-    protected $casts = [
-        'skills_required' => 'array', // Cast skills required to an array
     ];
 
     /**
@@ -39,6 +33,14 @@ class Job extends Model
     }
 
     /**
+     * Define the relationship to the Skill model.
+     */
+    public function skills()
+    {
+        return $this->belongsToMany(Skill::class, 'job_skill', 'job_id', 'skill_id');
+    }
+
+    /**
      * Scope a query to filter jobs by location.
      */
     public function scopeByLocation($query, $location)
@@ -51,6 +53,8 @@ class Job extends Model
      */
     public function scopeWithSkill($query, $skill)
     {
-        return $query->whereJsonContains('skills_required', $skill);
+        return $query->whereHas('skills', function ($query) use ($skill) {
+            $query->where('name', $skill); // Adjust the condition based on your Skill model's fields
+        });
     }
 }
