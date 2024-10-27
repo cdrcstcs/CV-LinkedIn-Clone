@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -19,9 +20,7 @@ class User extends Authenticatable
         'summary',
         'location',
         'industry',
-        'skills',
-        'connections',
-        'notifications',
+        // Removed skills, connections, notifications as arrays are managed through relationships
     ];
 
     protected $casts = [
@@ -55,17 +54,18 @@ class User extends Authenticatable
     {
         return $this->connections()->union(
             $this->belongsToMany(User::class, 'connections', 'user_id_2', 'user_id_1')
+                ->withPivot('status') // Including status in the pivot
         );
     }
 
     public function groups()
     {
-        return $this->belongsToMany(Group::class, 'group_user');
+        return $this->belongsToMany(Group::class, 'group_user')->withTimestamps();
     }
 
     public function events()
     {
-        return $this->belongsToMany(Event::class, 'event_user');
+        return $this->belongsToMany(Event::class, 'event_user')->withTimestamps();
     }
 
     /**
@@ -73,7 +73,14 @@ class User extends Authenticatable
      */
     public function education()
     {
-        return $this->belongsToMany(Education::class, 'education_user')
-                    ->withTimestamps(); // Optionally include timestamps
+        return $this->belongsToMany(Education::class, 'education_user')->withTimestamps();
+    }
+
+    /**
+     * Define the skills relationship (many-to-many).
+     */
+    public function skills()
+    {
+        return $this->belongsToMany(Skill::class, 'user_skills')->withTimestamps(); // Specify pivot table
     }
 }

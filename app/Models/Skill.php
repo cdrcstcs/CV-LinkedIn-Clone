@@ -18,6 +18,6 @@ class Skill extends Model
      */
     public function users()
     {
-        return $this->belongsToMany(User::class, 'user_skills'); // Specify pivot table if not using the default
+        return $this->belongsToMany(User::class, 'user_skills', 'skill_id', 'user_id')->withTimestamps(); // Specify pivot table
     }
 }

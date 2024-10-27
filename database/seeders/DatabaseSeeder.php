@@ -16,7 +16,7 @@ use App\Models\Message;
 use App\Models\Connection;
 use App\Models\Notification;
 use App\Models\Comment;
-
+use App\Models\Endorsement;
 class DatabaseSeeder extends Seeder
 {
     public function run()
@@ -50,6 +50,8 @@ class DatabaseSeeder extends Seeder
 
         // Create Connections
         Connection::factory()->count(3)->create();
+
+        Endorsement::factory()->count(3)->create();
 
         // Create Notifications
         Notification::factory()->count(3)->create();

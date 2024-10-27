@@ -37,7 +37,8 @@ class Job extends Model
      */
     public function skills()
     {
-        return $this->belongsToMany(Skill::class, 'job_skill', 'job_id', 'skill_id');
+        return $this->belongsToMany(Skill::class, 'job_skill', 'job_id', 'skill_id')                    
+                    ->withTimestamps(); // Optionally include timestamps
     }
 
     /**

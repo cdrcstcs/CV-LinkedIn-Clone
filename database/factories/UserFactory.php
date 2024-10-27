@@ -21,7 +21,7 @@ class UserFactory extends Factory
             'name' => $this->faker->name,
             'email' => $this->faker->unique()->safeEmail,
             'password' => bcrypt('password'), // or Hash::make('password')
-            'profile_picture' => null,
+            'profile_picture' => 'default_profile_picture.jpg', // Set a default value
             'headline' => $this->faker->sentence,
             'summary' => $this->faker->paragraph,
             'location' => $this->faker->city,
