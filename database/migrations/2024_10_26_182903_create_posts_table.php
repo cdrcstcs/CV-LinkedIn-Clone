@@ -11,7 +11,7 @@ return new class extends Migration
             $table->id(); // ID
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // User ID
             $table->text('content'); // Content (text, images, videos)
-            $table->json('likes')->nullable(); // Likes (list of user IDs)
+            $table->integer('likes')->default(0); // Store likes as an integer, default to 0
             $table->json('comments')->nullable(); // Comments (list of comment IDs)
             $table->timestamps(); // Created at & Updated at
         });

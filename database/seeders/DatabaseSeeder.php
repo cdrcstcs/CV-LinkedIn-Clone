@@ -1,4 +1,5 @@
 <?php
+
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
@@ -21,39 +22,37 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // Create Users with Relationships
-        User::factory()->count(10)->withRelationships()->create();
+        User::factory()->count(3)->withRelationships()->create();
 
         // Create Companies
-        Company::factory()->count(5)->create();
+        Company::factory()->count(3)->create();
 
         // Create Jobs with Skills
-        Job::factory()->count(10)->withSkills()->create();
+        Job::factory()->count(3)->withSkills()->create();
 
         // Create Events with Attendees
-        Event::factory()->count(5)->withAttendees()->create();
+        Event::factory()->count(3)->withAttendees()->create();
 
         // Create Groups with Members
-        Group::factory()->count(5)->withMembers()->create();
+        Group::factory()->count(3)->withMembers()->create();
 
         // Create Skills
-        Skill::factory()->count(15)->create();
+        Skill::factory()->count(3)->create();
 
         // Create Applications
-        Application::factory()->count(10)->create();
+        Application::factory()->count(3)->create();
 
-        // Create Posts
-        Post::factory()->count(20)->create();
+        // Create Posts with Comments
+        Post::factory()->count(3)->withComments(3)->create(); // Creates 3 comments for each post
 
         // Create Messages
-        Message::factory()->count(15)->create();
+        Message::factory()->count(3)->create();
 
         // Create Connections
-        Connection::factory()->count(10)->create();
+        Connection::factory()->count(3)->create();
 
         // Create Notifications
-        Notification::factory()->count(15)->create();
+        Notification::factory()->count(3)->create();
 
-        // Create Comments
-        Comment::factory()->count(30)->create();
     }
 }

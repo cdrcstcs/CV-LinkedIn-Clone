@@ -19,6 +19,7 @@ class JobFactory extends Factory
             'description' => $this->faker->paragraph, // Description
             'location' => $this->faker->city, // Location
             'posted_by' => User::factory(), // Create a user for the poster
+            'user_id' => User::factory(), // Make sure this is included
         ];
     }
 

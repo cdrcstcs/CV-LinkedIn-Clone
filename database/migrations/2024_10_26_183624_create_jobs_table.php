@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('location'); // Location
             $table->json('skills_required')->nullable(); // Skills Required (JSON)
             $table->foreignId('posted_by')->constrained('users')->onDelete('cascade'); // Posted By (User ID)
+            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Make sure this line exists
             $table->timestamps(); // Created at & Updated at
         });
     }

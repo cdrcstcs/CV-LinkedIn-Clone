@@ -10,6 +10,7 @@ return new class extends Migration
     {
         Schema::create('skills', function (Blueprint $table) {
             $table->id(); // ID
+            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Make sure this line exists
             $table->string('name')->unique(); // Name
             $table->timestamps(); // Created at & Updated at
         });
