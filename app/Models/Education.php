@@ -9,7 +9,6 @@ class Education extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
         'institution',
         'degree',
         'field_of_study',
@@ -17,8 +16,9 @@ class Education extends Model
         'end_date',
     ];
 
-    public function user()
+    public function users()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsToMany(User::class, 'education_user', 'education_id', 'user_id')
+                    ->withTimestamps(); // Optionally include timestamps
     }
 }
